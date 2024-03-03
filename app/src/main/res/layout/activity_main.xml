@@ -38,14 +38,14 @@
         tools:text="December 2020" />
 
     <TextView
+        android:id="@+id/tv_weekText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_weekText"
-        app:layout_constraintStart_toEndOf="@id/tv_date_month"
-        app:layout_constraintEnd_toStartOf="@id/iv_calendar_next"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="주간 일정 펼치기"
         app:layout_constraintBottom_toTopOf="@id/recyclerView"
-        android:text="주간 일정 펼치기"/>
+        app:layout_constraintEnd_toStartOf="@id/iv_calendar_next"
+        app:layout_constraintStart_toEndOf="@id/tv_date_month"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/view"
@@ -67,37 +67,27 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_date_month" />
 
-    <com.skydoves.expandablelayout.ExpandableLayout
+    <com.hmj3908.rowcalendarex.utils.expandablelayout.ExpandableLayout
         android:id="@+id/expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:expandable_animation="normal"
-        app:expandable_duration="300"
-        app:expandable_isExpanded="false"
-        app:expandable_parentLayout="@layout/layout_parent"
-        app:expandable_secondLayout="@layout/layout_second"
-        app:expandable_spinner_gravity="start"
-        app:expandable_spinner_size="100dp"
+        app:el_duration="300"
+        app:el_expanded="false"
+        app:el_parallax="0.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/customrecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_row" />
+        <TextView
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="asdfasdfasdfsadfsadfsadfsdafds" />
 
-    <FrameLayout
-        android:id="@+id/frag_container"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.hmj3908.rowcalendarex.utils.expandablelayout.ExpandableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
