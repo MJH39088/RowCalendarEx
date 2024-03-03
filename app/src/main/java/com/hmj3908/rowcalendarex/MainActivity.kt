@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.SnapHelper
 import com.hmj3908.rowcalendarex.adapter.CalendarAdapter
 import com.hmj3908.rowcalendarex.adapter.ParentAdapter
 import com.hmj3908.rowcalendarex.databinding.ActivityMainBinding
+import com.hmj3908.rowcalendarex.databinding.ItemRowBinding
+import com.hmj3908.rowcalendarex.databinding.ItemSectionBinding
 import com.hmj3908.rowcalendarex.model.CalendarDateModel
 import com.hmj3908.rowcalendarex.utils.HorizontalItemDecoration
 import com.hmj3908.rowcalendarex.utils.SectionItem
@@ -18,6 +20,7 @@ import com.skydoves.expandablelayout.expandableLayout
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.exp
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -28,7 +31,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: CalendarAdapter
     private val calendarList2 = ArrayList<CalendarDateModel>()
     private var isopened = false
-    private val customadapter = ParentAdapter()
+    private lateinit var customadapter: ParentAdapter
+    private lateinit var lowbinding: ItemSectionBinding
+    lateinit var myApplication: MyApplication
+    private var isSectionAdded = false
 //    val myExpandableLayout = expandableLayout() {
 //        setParentLayoutResource(R.layout.activity_detail)
 //        setSecondLayoutResource(R.layout.activity_daily)
@@ -40,17 +46,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        myApplication = application as MyApplication
+        customadapter = ParentAdapter()
         binding = ActivityMainBinding.inflate(layoutInflater)
+        lowbinding = ItemSectionBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpAdapter()
         setUpClickListener()
         setUpCalendar()
 //        setweekly()
         setUpExpandable()
-        setUpcustomrecyclerView()
+//        setUpcustomrecyclerView()
     }
 
     private fun setUpExpandable() {
+
         with(binding) {
             expandable.setOnExpandListener {
                 if (it) {
@@ -60,19 +70,45 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             binding.tvWeekText.setOnClickListener {
-                isopened = if (!isopened) {
-                    binding.tvWeekText.setText("주간 일정 접기")
-//                    expandable.toggleLayout()
-                    !isopened
-                } else {
-                    binding.tvWeekText.setText("주간 일정 펼치기")
-//                    expandable.toggleLayout()
-                    !isopened
+//                myApplication.isexpanded2 = if (!myApplication.isexpanded2) {
+//                    binding.tvWeekText.setText("주간 일정 접기")
+////                    expandable.toggleLayout()
+//
+//                    !myApplication.isexpanded2
+//                } else {
+//                    binding.tvWeekText.setText("주간 일정 펼치기")
+////                    expandable.toggleLayout()
+//
+//                    !myApplication.isexpanded2
+//                }
+//                customadapter.addSectionItem(
+//                    SectionItem("", R.color.white, customArray, !myApplication.isexpanded2)
+//                )
+                if (!isSectionAdded) { // 섹션이 추가되지 않았다면
+                    // ParentAdapter에 섹션 추가
+                    addSection()
+                    isSectionAdded = true
                 }
+                isopened = !isopened
+
+                customadapter.setExpandableLayoutExpanded(isopened)
+
+                binding.tvWeekText.text = if (isopened) "주간 일정 펼치기" else "주간 일정 접기"
+//                customadapter.notifyItemChanged(0)
             }
         }
     }
 
+    private fun addSection() {
+        // ParentAdapter에 섹션 추가
+        var customArray = arrayListOf<String>()
+        for(i in 0..23) {
+            customArray.add(i.toString())
+        }
+        customadapter.addSectionItem(
+            SectionItem("", R.color.white, customArray)
+        )
+    }
     private fun setUpClickListener() {
         binding.ivCalendarNext.setOnClickListener {
             cal.add(Calendar.MONTH, 1)
@@ -93,9 +129,10 @@ class MainActivity : AppCompatActivity() {
         for(i in 0..23) {
             customArray.add(i.toString())
         }
-        customadapter.addSectionItem(
-            SectionItem("Title0", R.color.white, customArray, isopened)
-        )
+
+//        customadapter.addSectionItem(
+//            SectionItem("", R.color.white, customArray, myApplication.isexpanded2)
+//        )
 //        customadapter.addSectionItem(
 //            SectionItem("Title1", R.color.md_yellow_100, arrayListOf("item0", "item1", "item2", "item3"))
 //        )

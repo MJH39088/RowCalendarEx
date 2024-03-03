@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:background="@color/md_yellow_100"
+
   android:orientation="vertical"
   android:padding="10dp">
 
@@ -10,8 +10,9 @@
     android:id="@+id/button0"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/md_yellow_200"
-    android:text="Item0" />
+    android:background="@color/white"
+    android:text="Item0"
+      android:gravity="start"/>
 
   <Button
     android:id="@+id/button1"
@@ -19,7 +20,8 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:background="@color/md_orange_100"
-    android:text="Item1" />
+    android:text="Item1"
+      android:gravity="start"/>
 
   <Button
     android:id="@+id/button2"
@@ -27,7 +29,8 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:background="@color/md_amber_700"
-    android:text="Item2" />
+    android:text="Item2"
+      android:gravity="start"/>
 
   <Button
     android:id="@+id/button3"
@@ -35,5 +38,6 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:background="@color/md_orange_200"
-    android:text="Item3" />
+    android:text="Item3"
+      android:gravity="start"/>
 </LinearLayout>

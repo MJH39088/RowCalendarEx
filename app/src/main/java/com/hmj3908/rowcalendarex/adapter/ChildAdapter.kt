@@ -1,9 +1,11 @@
 package com.hmj3908.rowcalendarex.adapter
 
+import android.app.Application
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.hmj3908.rowcalendarex.MyApplication
 import com.hmj3908.rowcalendarex.databinding.ItemRowBinding
 
 class ChildAdapter(private val delegate: Delegate) : RecyclerView.Adapter<ChildAdapter.ChildViewHolder>() {
@@ -36,5 +38,6 @@ class ChildAdapter(private val delegate: Delegate) : RecyclerView.Adapter<ChildA
 
     interface Delegate {
         fun onRowItemClick(position: Int, title: String, context: Context)
+
     }
 }
