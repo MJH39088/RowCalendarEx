@@ -31,10 +31,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: CalendarAdapter
     private val calendarList2 = ArrayList<CalendarDateModel>()
     private var isopened = false
-    private lateinit var customadapter: ParentAdapter
+    private val customadapter = ParentAdapter()
     private lateinit var lowbinding: ItemSectionBinding
     lateinit var myApplication: MyApplication
     private var isSectionAdded = false
+    val fragment = WeeklyFragment()
 //    val myExpandableLayout = expandableLayout() {
 //        setParentLayoutResource(R.layout.activity_detail)
 //        setSecondLayoutResource(R.layout.activity_daily)
@@ -47,16 +48,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         myApplication = application as MyApplication
-        customadapter = ParentAdapter()
         binding = ActivityMainBinding.inflate(layoutInflater)
         lowbinding = ItemSectionBinding.inflate(layoutInflater)
+
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.frag_container, fragment)
+            .commit()
+
         setContentView(binding.root)
         setUpAdapter()
         setUpClickListener()
         setUpCalendar()
 //        setweekly()
         setUpExpandable()
-//        setUpcustomrecyclerView()
+        setUpcustomrecyclerView()
     }
 
     private fun setUpExpandable() {
@@ -89,22 +95,23 @@ class MainActivity : AppCompatActivity() {
                     addSection()
                     isSectionAdded = true
                 }
-                isopened = !isopened
+                val expanded = myApplication.isexpanded2
+                myApplication.isexpanded2 = !expanded
 
-                customadapter.setExpandableLayoutExpanded(isopened)
-
-                binding.tvWeekText.text = if (isopened) "주간 일정 펼치기" else "주간 일정 접기"
+                binding.tvWeekText.text = if (expanded) "주간 일정 펼치기" else "주간 일정 접기"
 //                customadapter.notifyItemChanged(0)
+                fragment.toggleExpandableLayout()
             }
         }
     }
 
     private fun addSection() {
         // ParentAdapter에 섹션 추가
-        var customArray = arrayListOf<String>()
-        for(i in 0..23) {
-            customArray.add(i.toString())
-        }
+        val customArray = (0..23).map { it.toString() }
+//        for(i in 0..23) {
+//            customArray.add(i.toString())
+//        }
+
         customadapter.addSectionItem(
             SectionItem("", R.color.white, customArray)
         )
@@ -125,10 +132,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpcustomrecyclerView() {
         binding.customrecyclerView.adapter = customadapter
-        var customArray = arrayListOf<String>()
-        for(i in 0..23) {
-            customArray.add(i.toString())
-        }
+        val customArray = (0..23).map { it.toString() }
+        customadapter.addSectionItem(
+            SectionItem("", R.color.white, customArray)
+        )
 
 //        customadapter.addSectionItem(
 //            SectionItem("", R.color.white, customArray, myApplication.isexpanded2)

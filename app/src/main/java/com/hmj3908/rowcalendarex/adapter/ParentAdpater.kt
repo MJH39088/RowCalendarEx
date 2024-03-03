@@ -68,9 +68,13 @@ class ParentAdapter :
 
     override fun getItemCount() = items.size
 
-    fun setExpandableLayoutExpanded(expanded: Boolean) {
-        isExpanded = expanded
+    fun toggleExpandableLayout() {
+        isExpanded = !isExpanded
         notifyDataSetChanged()
+    }
+
+    fun isExpandableLayoutExpanded(): Boolean {
+        return isExpanded
     }
 
     class ParentViewHolder(val binding: ItemSectionBinding) :
